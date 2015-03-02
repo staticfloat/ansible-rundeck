@@ -3,7 +3,7 @@ rdeck.base="/var/lib/rundeck"
 rss.enabled=false
 
 grails {
-  serverURL="{{ rundeck_domain }}"
+  serverURL="http://{{ rundeck_domain }}"
 
 {% if rundeck_email_address is defined %}
   mail {
