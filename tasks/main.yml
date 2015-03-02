@@ -54,11 +54,14 @@
     - rundeck
     - configuration
 
-- name: Rundeck | Ensure server url is configured
-  lineinfile: >
-    dest=/etc/rundeck/rundeck-config.properties
-    regexp="^grails.serverURL="
-    line="grails.serverURL=http://{{ rundeck_domain }}"
+- name: Rundeck | Copy over server configuration in groovy format
+  template: src=rundeck-config.groovy dest=/etc/rundeck/rundeck-config.groovy owner=rundeck group=rundeck mode=0750
+  tags:
+    - rundeck
+    - configuration
+
+- name: Rundeck | Ensure rundeck loads groovy config
+  replace: dest=/etc/rundeck/profile regexp="rundeck-config.properties" replace="rundeck-config.groovy" backup=yes
   notify:
     - restart rundeck
   tags:
